@@ -18,13 +18,13 @@ context = pyudev.Context()
 def seatN(d):
     tags = list(d.tags)
     if 'seat0' in tags:
-	return 'seat0'
+        return 'seat0'
     s = d.get('ID_SEAT')
     if s and s != 'seat0':
-	return s
+        return s
     for t in tags:
-	if t.startswith('seat') and t != 'seat':
-	    return t
+        if t.startswith('seat') and t != 'seat':
+            return t
     return 'seat0'
 
 seat = os.environ.get('XDG_SEAT', 'seat0')
@@ -143,8 +143,8 @@ class Client(object):
                 self.jack_in.wait(1)
             except:
                 self.jack_in.send_signal(signal.SIGKILL)
-			
-		
+                        
+                
 @object.__new__ #singleton, skips __init__
 class Manager(object):
     running = False
@@ -225,7 +225,7 @@ class Manager(object):
         except:
             self.jackd.send_signal(signal.SIGKILL)
         self.rulesd.terminate()
-		
+                
 
 def configure(device):
     print(get_config()['configure'](device).input)
