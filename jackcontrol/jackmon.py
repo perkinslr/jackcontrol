@@ -71,7 +71,8 @@ class JackMonitor(object):
             conf = get_config()
             action = conf['find_rule'](evt[0], evt[1], evt[2:], client=self.client)
             if action:
-                self.do(*action)
+                for a in self.action:
+                    self.do(*a)
     
     def run(self):
         time.sleep(1)
@@ -112,7 +113,7 @@ def get_config():
     exec(confcode, conf, conf)
     return conf
             
-def find_rule(evt_type: event, port: jack.Port, *args: tuple, client: jack.Client)->[event, jack.Port, tuple]:
+def find_rule(evt_type: event, port: jack.Port, *args: tuple, client: jack.Client)->[[event, jack.Port, tuple]]:
     for rule in rules.values():
         if rule.event is evt_type:
             if (port.is_input and rule.input) or port.is_output and rule.output:
@@ -132,7 +133,7 @@ def find_rule(evt_type: event, port: jack.Port, *args: tuple, client: jack.Clien
                     else:
                         continue
                     if len(targets) > channelidx:
-                        return [rule.action, port, targets[channelidx]]
+                        return [[rule.action, port, targets[channelidx]]]
                     
 
 
