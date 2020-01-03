@@ -1,5 +1,5 @@
 #Config, Reference, find_rule, event, channel provided in globals
-#def find_rule(evt_type: event, port: jack.Port, *args: tuple, client: jack.Client)->[[event, jack.Port, *args]]:
+#def find_rule(evt_type: event, port: jack.Port, *args: tuple, client: jack.Client)->[[event, jack.Port, *args], ...]:
 #events: CONNECT, DISCONNECT, REGISTER, UNREGISTER
 #channel: MATCH, MERGE
 #Match: attach outport channel N to inport channel N
