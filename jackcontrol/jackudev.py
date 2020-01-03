@@ -50,7 +50,7 @@ def get_config():
     conffile = os.path.expanduser('~/.config/jack/cards.py')
     if not os.path.exists(conffile):
         os.system('mkdir -p ~/.config/jack')
-        confpath = os.path.dirname(__file__)+'/config/cards.py'
+        confpath = os.path.dirname(__file__)+'/config/*.py'
         os.system(f'cp {confpath} ~/.config/jack')
         #return {}
     with open(conffile, 'rb') as f:
