@@ -3,7 +3,7 @@
 cards = Config(
     hd_audio=Config(
 	match=dict(),
-	name='Auto-%(ID_MODEL_FROM_DATABASE)s-%(label)s',
+	name='Auto-%(id)s-%(label)s',
 	restart=-1,
 	input=dict(
 	    label="input",

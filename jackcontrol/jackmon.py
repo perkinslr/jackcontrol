@@ -93,7 +93,9 @@ class JackMonitor(object):
 def get_config():
     conffile = os.path.expanduser('~/.config/jack/rules.py')
     if not os.path.exists(conffile):
-        return {}
+        os.system('mkdir -p ~/.config/jack')
+        confpath = os.path.dirname(__file__)+'/config/rules.py'
+        os.system(f'cp {confpath} ~/.config/jack/rules.py')
     with open(conffile, 'rb') as f:
         confdata = f.read()
     header = confdata.splitlines(True)[:2]

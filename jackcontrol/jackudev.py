@@ -49,7 +49,10 @@ def get_monitor():
 def get_config():
     conffile = os.path.expanduser('~/.config/jack/cards.py')
     if not os.path.exists(conffile):
-        return {}
+        os.system('mkdir -p ~/.config/jack')
+        confpath = os.path.dirname(__file__)+'/config/cards.py'
+        os.system(f'cp {confpath} ~/.config/jack')
+        #return {}
     with open(conffile, 'rb') as f:
         confdata = f.read()
     header = confdata.splitlines(True)[:2]
@@ -99,10 +102,10 @@ class Client(object):
             self.start_in()
 
     def start_out(self):
-        self.jack_out = subprocess.Popen(['alsa_out', '-j', self.conf.name%dict(mode='output', **self.conf.output), '-d', f'hw:{self.conf.id},{self.conf.output.subdevice}', '-c', f'{self.conf.output.channels}', '-p', f'{self.conf.output.buffer_size}', '-n', f'{self.conf.output.buffer_count}', '-r', f'{self.conf.output.sample_rate}', '-q', f'{self.conf.output.quality}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        self.jack_out = subprocess.Popen(['alsa_out', '-j', self.conf.name%dict(mode='output', **self.conf.output, **self.device, **self.conf), '-d', f'hw:{self.conf.id},{self.conf.output.subdevice}', '-c', f'{self.conf.output.channels}', '-p', f'{self.conf.output.buffer_size}', '-n', f'{self.conf.output.buffer_count}', '-r', f'{self.conf.output.sample_rate}', '-q', f'{self.conf.output.quality}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 
     def start_in(self):
-        self.jack_in = subprocess.Popen(['alsa_in', '-j', self.conf.name%dict(mode='input', **self.conf.input), '-d', f'hw:{self.conf.id},{self.conf.input.subdevice}', '-c', f'{self.conf.input.channels}', '-p', f'{self.conf.input.buffer_size}', '-n', f'{self.conf.input.buffer_count}', '-r', f'{self.conf.input.sample_rate}', '-q', f'{self.conf.input.quality}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        self.jack_in = subprocess.Popen(['alsa_in', '-j', self.conf.name%dict(mode='input', **self.conf.input, **self.device, **self.conf), '-d', f'hw:{self.conf.id},{self.conf.input.subdevice}', '-c', f'{self.conf.input.channels}', '-p', f'{self.conf.input.buffer_size}', '-n', f'{self.conf.input.buffer_count}', '-r', f'{self.conf.input.sample_rate}', '-q', f'{self.conf.input.quality}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 
     def poll(self, readable):
         if self.jack_out:
